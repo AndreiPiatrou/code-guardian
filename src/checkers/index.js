@@ -1,20 +1,29 @@
-const { compact } = require('lodash');
+const { compact, pick, reduce } = require('lodash');
 
-const buildSecretChecker = require('./secret');
-const buildPrivateKeyChecker = require('./private.keys');
+const checkers = require('require-all')({
+  dirname: __dirname,
+  excludeDirs: 'decorators',
+  filter: /^((?!index).*)\.js$/,
+});
 
-module.exports = (dependencies) => {
-  // TODO: make this array auto-generated
-  // maybe by defining decorators inside a target checker
-  const checkers = [
-    { checker: 'secret', checkFn: buildSecretChecker(dependencies) },
-    { checker: 'private key', checkFn: buildPrivateKeyChecker(dependencies) },
-  ];
+function filterCheckers(allCheckers, selectedCheckers) {
+  return selectedCheckers.length
+    ? pick(allCheckers, selectedCheckers)
+    : allCheckers;
+}
 
-  return function check(repo, context, config) {
-    return checkers.reduce((results, { checker, checkFn }) => compact([
+function buildCheckFn(dependencies) {
+  return function check(repo, selectedCheckers, context, config) {
+    const filteredCheckers = filterCheckers(checkers, selectedCheckers);
+
+    return reduce(filteredCheckers, (results, checkFn, checker) => compact([
       ...results,
-      ...checkFn(repo, { ...context, checker }, config),
+      ...checkFn(dependencies)(repo, { ...context, checker }, config),
     ]), []);
   };
+}
+
+module.exports = {
+  checkers: Object.keys(checkers),
+  buildCheckFn,
 };

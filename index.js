@@ -8,16 +8,16 @@
 const { flow, compact } = require('lodash');
 
 const { argv, checkerConfig } = require('./src/arguments');
-const buildCheck = require('./src/checkers');
+const { buildCheckFn } = require('./src/checkers');
 const fs = require('./src/fs');
 
-const { path: repo } = argv;
+const { path: repo, checkers: selectedCheckers } = argv;
 const FILE_EXCLUDES = flow(
   fs.readLines,
   compact,
 )(argv.excludes);
 
-const checkFn = buildCheck({
+const checkFn = buildCheckFn({
   readLinesFn: fs.readLines,
   readFilesFn: (dir) => fs.getFiles(dir, FILE_EXCLUDES),
   // eslint-disable-next-line no-console
@@ -25,7 +25,7 @@ const checkFn = buildCheck({
 });
 
 (async () => {
-  const result = checkFn(repo, {}, checkerConfig);
+  const result = checkFn(repo, selectedCheckers, {}, checkerConfig);
 
   process.exit(!result ? 1 : 0);
 })();

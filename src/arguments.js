@@ -1,4 +1,5 @@
 const path = require('path');
+const { checkers } = require('./checkers');
 const { pick } = require('lodash');
 const { argv } = require('yargs')
   .option('path', {
@@ -13,11 +14,13 @@ const { argv } = require('yargs')
   })
   .option('entropyThreshold', {
     default: 2,
+  })
+  .option('checkers', {
+    array: true,
+    choices: checkers,
+    describe: 'Specify checkers to be used',
+    default: [],
   });
-
-// TODO: add arguments to FILTER IN only certain checkers
-// example: $ code-guardian # starts all checkers
-// example: $ code-guardian -s # starts only secret checker
 
 module.exports = {
   argv,
