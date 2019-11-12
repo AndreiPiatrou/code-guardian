@@ -1,6 +1,10 @@
+/* eslint-disable import/order */
+
 const path = require('path');
-const { checkers } = require('./checkers');
 const { pick } = require('lodash');
+
+const { checkers } = require('./checkers');
+
 const { argv } = require('yargs')
   .option('path', {
     alias: 'p',
