@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const buildSubject = require('../src/checkers/private.keys');
 
-describe('secret.js', () => {
+describe('private.key.js', () => {
   it('returns false for non private key file', () => {
     const subject = buildSubject({ readFilesFn: () => [] });
     const results = subject('./');

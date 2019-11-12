@@ -4,40 +4,24 @@ const proxyquire = require('proxyquire');
 
 describe('index.js', () => {
   describe('#checkers', () => {
-    const requireAll = sinon.stub();
-
-    context('when checkers are present', () => {
-      beforeEach(() => {
-        requireAll.returns({ testKey1: 'testValue1', testKey2: 'testValue2' });
+    it('returns array with checkers keys when checkers are present', () => {
+      const { checkers } = proxyquire('../src/checkers', {
+        'require-all': sinon.stub().returns({ testKey1: 'testValue1', testKey2: 'testValue2' }),
       });
 
-      it('returns array with checkers keys', () => {
-        const { checkers } = proxyquire('../src/checkers', {
-          'require-all': requireAll
-        });
-
-        assert.deepStrictEqual(checkers, ['testKey1', 'testKey2']);
-      });
+      assert.deepStrictEqual(checkers, ['testKey1', 'testKey2']);
     });
 
-    context('when checkers are present', () => {
-      beforeEach(() => {
-        requireAll.returns({});
+    it('returns empty array when there are no checkers', () => {
+      const { checkers } = proxyquire('../src/checkers', {
+        'require-all': sinon.stub().returns({}),
       });
 
-      it('returns empty array', () => {
-        const { checkers } = proxyquire('../src/checkers', {
-          'require-all': requireAll
-        });
-
-        assert.deepStrictEqual(checkers, []);
-      });
+      assert.deepStrictEqual(checkers, []);
     });
   });
 
   describe('#buildCheckFn', () => {
-    let selectedCheckers;
-
     const repo = sinon.stub();
     const config = sinon.stub();
     const dependencies = sinon.stub();
@@ -48,8 +32,8 @@ describe('index.js', () => {
     const { buildCheckFn } = proxyquire('../src/checkers', {
       'require-all': () => ({
         testChecker: testCheckerFn,
-        anotherTestChecker: anotherTestCheckerFn
-      })
+        anotherTestChecker: anotherTestCheckerFn,
+      }),
     });
 
     beforeEach(() => {
@@ -60,30 +44,18 @@ describe('index.js', () => {
       anotherTestCheckerFn.withArgs(repo, { context: 'testContext', checker: 'anotherTestChecker' }, config).returns(['testResult2', null]);
     });
 
-    context('when selectedCheckers is empty array', () => {
-      beforeEach(() => {
-        selectedCheckers = [];
-      });
+    it('executes checks against all checkers when selectedCheckers is an empty array', () => {
+      const checkFn = buildCheckFn(dependencies);
+      const checkResults = checkFn(repo, [], checkerContext, config);
 
-      it('calls checks for all checkers', () => {
-        const checkFn = buildCheckFn(dependencies);
-        const checkResults = checkFn(repo, selectedCheckers, checkerContext, config);
-
-        assert.deepStrictEqual(checkResults, ['testResult1', 'testResult2']);
-      });
+      assert.deepStrictEqual(checkResults, ['testResult1', 'testResult2']);
     });
 
-    context('when selectedChecks is not empty array', () => {
-      beforeEach(() => {
-        selectedCheckers = ['testChecker'];
-      });
+    it('executes checks against all checkers when selectedCheckers is not an empty array', () => {
+      const checkFn = buildCheckFn(dependencies);
+      const checkResults = checkFn(repo, ['testChecker'], checkerContext, config);
 
-      it('calls checks for all checkers', () => {
-        const checkFn = buildCheckFn(dependencies);
-        const checkResults = checkFn(repo, selectedCheckers, checkerContext, config);
-
-        assert.deepStrictEqual(checkResults, ['testResult1']);
-      });
+      assert.deepStrictEqual(checkResults, ['testResult1']);
     });
   });
 });
