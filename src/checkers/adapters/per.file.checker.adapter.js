@@ -1,6 +1,6 @@
 const { flow, compact } = require('lodash');
 
-function decorate(base, { readFilesFn, onCheckResult }) {
+function adapt(base, { readFilesFn, onCheckResult }) {
   return function check(dir, context, config) {
     return flow(
       readFilesFn,
@@ -18,4 +18,4 @@ function decorate(base, { readFilesFn, onCheckResult }) {
   };
 }
 
-module.exports = decorate;
+module.exports = adapt;
