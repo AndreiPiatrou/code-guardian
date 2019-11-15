@@ -2,7 +2,7 @@ const { compact, pick, reduce } = require('lodash');
 
 const checkers = require('require-all')({
   dirname: __dirname,
-  excludeDirs: 'decorators',
+  excludeDirs: 'adapters',
   filter: /^((?!index).*)\.js$/,
 });
 

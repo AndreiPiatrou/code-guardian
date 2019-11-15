@@ -2,8 +2,8 @@
 
 const { zip } = require('lodash');
 
-const perFileDecorator = require('./decorators/per.file.checker.decorator');
-const perLineDecorator = require('./decorators/per.line.checker.decorator');
+const perFileAdapter = require('./adapters/per.file.checker.adapter');
+const perLineAdapter = require('./adapters/per.line.checker.adapter');
 
 const MIN_LENGTH = 10;
 const LEXEME_REGEXP = /[^\s.()/\\[\]<>=;,:_]{10,}/;
@@ -56,7 +56,7 @@ function check(line, context, { entropyThreshold }) {
     : false;
 }
 
-module.exports = (dependencies) => perFileDecorator(
-  perLineDecorator(check, dependencies),
+module.exports = (dependencies) => perFileAdapter(
+  perLineAdapter(check, dependencies),
   dependencies,
 );
