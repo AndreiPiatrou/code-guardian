@@ -5,7 +5,7 @@ const writers = require('require-all')({
 
 const DEFAULT_WRITER = 'index';
 
-function output(results, { target, ...dependencies }) {
+function write(results, { target, ...dependencies }) {
   const array = isArray(results) ? results : [results];
   const writeByTarget = writers[target][DEFAULT_WRITER];
 
@@ -19,7 +19,7 @@ function summary(results, { target, ...dependencies }) {
 }
 
 module.exports = {
-  output,
+  write,
   writers: without(Object.keys(writers), 'index'),
   summary,
 };
