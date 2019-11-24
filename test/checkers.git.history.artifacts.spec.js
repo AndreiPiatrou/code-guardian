@@ -41,7 +41,8 @@ describe('git.history.artifacts.js', () => {
     assert.deepStrictEqual(results, [{
       author: 'authorName',
       hash: 'hash-1',
-      message: 'Message "duplicated message" is repeated in a row',
+      message: 'Commit message is repeated in a row',
+      commit: 'duplicated message',
     }]);
   });
 
@@ -59,7 +60,8 @@ describe('git.history.artifacts.js', () => {
     assert.deepStrictEqual(results, [{
       author: 'authorName',
       hash: 'hash-1',
-      message: 'Message "single-word-commit-message" is a single word',
+      message: 'Commit message is a single word',
+      commit: 'single-word-commit-message',
     }]);
   });
 });
