@@ -3,7 +3,7 @@ const assert = require('assert');
 const buildCheck = require('../src/checkers/git.history.artifacts');
 
 describe('git.history.artifacts.js', () => {
-  it('returns false for not duplicated messages', () => {
+  it('returns an empty array for not duplicated messages', () => {
     const subject = buildCheck({
       readGitHistoryFn: () => [{
         hash: 'hash-1',
