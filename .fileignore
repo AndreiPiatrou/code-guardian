@@ -11,6 +11,7 @@ stubs/
 examples/
 
 package.json
+yarn.lock
 package-lock.json
 Gemfile
 Gemfile.lock

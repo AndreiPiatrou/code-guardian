@@ -4,7 +4,7 @@ const gitLog = require('gitlog');
 
 const DEFAULT_OPTIONS = {
   repo: `${__dirname}/test-repo-folder`,
-  number: 1000,
+  number: 10,
   fields: [
     'hash',
     'authorName',
