@@ -42,6 +42,7 @@
     "sinon": "^7.5.0"
   },
   "dependencies": {
+    "chalk": "^3.0.0",
     "fs-readdir-recursive": "^1.1.0",
     "gitlog": "^3.1.2",
     "lodash": "^4.17.15",

@@ -1,25 +1,22 @@
 #!/usr/bin/env node
 
-const { flow, compact } = require('lodash');
+const { compact, curryRight } = require('lodash');
+const chalk = require('chalk');
 
 const { argv, checkerConfig } = require('./src/arguments');
 const { buildCheckFn } = require('./src/checkers');
 const fs = require('./src/fs');
 const git = require('./src/git');
+const { output } = require('./src/output');
 
 const { path: repo, checkers: selectedCheckers } = argv;
-const FILE_EXCLUDES = flow(
-  fs.readLines,
-  compact,
-)(argv.excludes);
+const FILE_EXCLUDES = compact(fs.readLines(argv.excludes));
 
 const checkFn = buildCheckFn({
   readLinesFn: fs.readLines,
-  readFilesFn: (dir) => fs.getFiles(dir, FILE_EXCLUDES),
-  readGitHistoryFn: (dir) => git.getHistory(dir, { number: argv.gitCommitHistoryDepth }),
-  // TODO: refactor with flexible outputting
+  readFilesFn: curryRight(fs.getFiles)(FILE_EXCLUDES),
   // eslint-disable-next-line no-console
-  onCheckResult: (results) => results.length && console.log(results),
+  onCheckResult: curryRight(output)({ target: argv.o, log: console.log, chalk }),
 });
 
 (async () => {

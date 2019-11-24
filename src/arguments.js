@@ -4,6 +4,7 @@ const path = require('path');
 const { pick } = require('lodash');
 
 const { checkers } = require('./checkers');
+const { writers } = require('./output');
 
 const { argv } = require('yargs')
   .option('path', {
@@ -29,6 +30,12 @@ const { argv } = require('yargs')
     choices: checkers,
     describe: 'Specify checkers to be used',
     default: [],
+  })
+  .option('output', {
+    alias: 'o',
+    choices: writers,
+    describe: 'Specify result output',
+    default: 'stdout',
   });
 
 module.exports = {

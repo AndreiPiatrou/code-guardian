@@ -3,14 +3,14 @@ const path = require('path');
 const readDir = require('fs-readdir-recursive');
 
 // TODO: implement true wildcard for ignore list instead of simple `include` check
-function getFiles(dirPath, excludes = []) {
+function getFiles(dirPath, excludes) {
   const relativeFiles = readDir(dirPath, (name, index, dir) => {
     const full = path.join(dir, name);
 
-    return excludes.every((exclude) => !full.includes(exclude));
+    return (excludes || []).every((exclude) => !full.includes(exclude));
   });
 
-  return relativeFiles.map((relative) => path.join(dirPath, relative));
+  return relativeFiles.map((relative) => path.resolve(dirPath, relative));
 }
 
 function readLines(filePath) {
