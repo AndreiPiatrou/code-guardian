@@ -7,7 +7,7 @@ const { argv, checkerConfig } = require('./src/arguments');
 const { buildCheckFn } = require('./src/checkers');
 const fs = require('./src/fs');
 const git = require('./src/git');
-const { output, summary } = require('./src/output');
+const output = require('./src/output');
 
 const { log } = console;
 
@@ -19,13 +19,13 @@ const checkFn = buildCheckFn({
   readLinesFn: fs.readLines,
   readFilesFn: curryRight(fs.getFiles)(FILE_EXCLUDES),
   readGitHistoryFn: curryRight(git.getHistory)({ number: argv.g }),
-  onCheckResult: curryRight(output)(OUTPUT_DEPS),
+  onCheckResult: curryRight(output.write)(OUTPUT_DEPS),
 });
 
 (async () => {
   const results = checkFn(repo, selectedCheckers, {}, checkerConfig);
 
-  summary(results, OUTPUT_DEPS);
+  output.summary(results, OUTPUT_DEPS);
 
   process.exit(!results.length ? 1 : 0);
 })();
