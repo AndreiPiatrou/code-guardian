@@ -24,7 +24,7 @@ function normalize({
   };
 }
 
-function getHistory(dir, options = {}) {
+function getHistory(dir, options) {
   return flow(
     (repo) => merge(DEFAULT_OPTIONS, options, { repo }),
     gitLog,

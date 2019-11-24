@@ -18,6 +18,7 @@ const OUTPUT_DEPS = { target: argv.o, log, chalk };
 const checkFn = buildCheckFn({
   readLinesFn: fs.readLines,
   readFilesFn: curryRight(fs.getFiles)(FILE_EXCLUDES),
+  readGitHistoryFn: curryRight(git.getHistory)({ number: argv.g }),
   onCheckResult: curryRight(output)(OUTPUT_DEPS),
 });
 
