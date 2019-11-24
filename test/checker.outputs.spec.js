@@ -14,7 +14,7 @@ describe('checkers.js', () => {
 
       const dependencies = {
         log: () => {},
-        chalk: sinon.stub(chalk),
+        color: sinon.stub(chalk),
       };
 
       writers.forEach((target) => {
