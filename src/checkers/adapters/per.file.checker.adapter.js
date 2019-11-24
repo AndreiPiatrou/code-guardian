@@ -1,17 +1,13 @@
-const { flow, compact } = require('lodash');
+const { flow, compact, tap } = require('lodash');
 
-function adapt(base, { readFilesFn, onCheckResult }) {
+function adapt(base, { readFilesFn, onCheckResult = () => {} }) {
   return function check(repo, context, config) {
     return flow(
       readFilesFn,
       (files) => files.reduce((results, file) => {
         const perFileResults = compact(base(file, { ...context, file }, config));
 
-        if (onCheckResult) {
-          onCheckResult(perFileResults); // single side effect that is allowed here
-        }
-
-        return [...results, ...perFileResults];
+        return [...results, ...tap(perFileResults, onCheckResult)];
       }, []),
       compact,
     )(repo);
