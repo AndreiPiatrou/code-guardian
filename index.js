@@ -13,7 +13,7 @@ const { log } = console;
 
 const { path: repo, checkers: selectedCheckers } = argv;
 const FILE_EXCLUDES = compact(fs.readLines(argv.excludes));
-const OUTPUT_DEPS = { target: argv.o, log, chalk };
+const OUTPUT_DEPS = { target: argv.o, log, color: chalk };
 
 const checkFn = buildCheckFn({
   readLinesFn: fs.readLines,

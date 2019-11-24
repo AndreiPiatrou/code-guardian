@@ -2,7 +2,7 @@ const writers = require('require-all')({
   dirname: __dirname,
 });
 
-function summary(results, { log, chalk: c }) {
+function summary(results, { log, color: c }) {
   const color = results.length ? 'red' : 'green';
 
   log(`Total: ${c[color](results.length)}`);
