@@ -2,22 +2,18 @@ const writers = require('require-all')({
   dirname: __dirname,
 });
 
-function divide({ log }) {
-  log();
-}
-
 function summary(results, { log, chalk: c }) {
   const color = results.length ? 'red' : 'green';
 
   log(`Total: ${c[color](results.length)}`);
 }
 
-function write(value, ...rest) {
-  writers[value.checker](value, ...rest);
+function write(value, { log, ...rest }) {
+  writers[value.checker](value, { log, ...rest });
+  log();
 }
 
 module.exports = {
-  divide,
   summary,
   write,
 };

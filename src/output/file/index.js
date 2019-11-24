@@ -2,5 +2,4 @@
 module.exports = {
   write: () => console.log('not implemented yet'),
   summary: () => console.log('not implemented yet'),
-  divide: () => console.log('not implemented yet'),
 };
