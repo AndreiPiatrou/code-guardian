@@ -10,6 +10,7 @@ const { flow, compact } = require('lodash');
 const { argv, checkerConfig } = require('./src/arguments');
 const { buildCheckFn } = require('./src/checkers');
 const fs = require('./src/fs');
+const git = require('./src/git');
 
 const { path: repo, checkers: selectedCheckers } = argv;
 const FILE_EXCLUDES = flow(
@@ -18,10 +19,11 @@ const FILE_EXCLUDES = flow(
 )(argv.excludes);
 
 const checkFn = buildCheckFn({
+  readGitHistoryFn: git.getHistory,
   readLinesFn: fs.readLines,
   readFilesFn: (dir) => fs.getFiles(dir, FILE_EXCLUDES),
   // eslint-disable-next-line no-console
-  onCheckResult: console.log,
+  onCheckResult: (results) => results.length && console.log(results),
 });
 
 (async () => {

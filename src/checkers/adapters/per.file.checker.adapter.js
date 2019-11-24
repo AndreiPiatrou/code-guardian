@@ -1,7 +1,7 @@
 const { flow, compact } = require('lodash');
 
 function adapt(base, { readFilesFn, onCheckResult }) {
-  return function check(dir, context, config) {
+  return function check(repo, context, config) {
     return flow(
       readFilesFn,
       (files) => files.reduce((results, file) => {
@@ -14,7 +14,7 @@ function adapt(base, { readFilesFn, onCheckResult }) {
         return [...results, ...perFileResults];
       }, []),
       compact,
-    )(dir);
+    )(repo);
   };
 }
 
