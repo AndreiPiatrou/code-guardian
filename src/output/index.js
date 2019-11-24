@@ -7,16 +7,20 @@ const DEFAULT_WRITER = 'index';
 
 function output(results, { target, ...dependencies }) {
   const array = isArray(results) ? results : [results];
-  const writeByTarget = writers[target];
+  const writeByTarget = writers[target][DEFAULT_WRITER];
 
   array.forEach((value) => {
-    const writeByChecker = writeByTarget[value.checker] || writeByTarget[DEFAULT_WRITER];
-
-    writeByChecker(value, dependencies);
+    writeByTarget.write(value, dependencies);
+    writeByTarget.divide(dependencies);
   });
+}
+
+function summary(results, { target, ...dependencies }) {
+  writers[target][DEFAULT_WRITER].summary(results, dependencies);
 }
 
 module.exports = {
   output,
   writers: without(Object.keys(writers), 'index'),
+  summary,
 };

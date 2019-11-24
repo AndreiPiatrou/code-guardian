@@ -7,7 +7,7 @@ function adapt(base, { readFilesFn, onCheckResult }) {
       (files) => files.reduce((results, file) => {
         const perFileResults = compact(base(file, { ...context, file }, config));
 
-        if (onCheckResult && perFileResults.length) {
+        if (onCheckResult) {
           onCheckResult(perFileResults); // single side effect that is allowed here
         }
 
