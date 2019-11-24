@@ -11,7 +11,6 @@ function output(results, { target, ...dependencies }) {
 
   array.forEach((value) => {
     writeByTarget.write(value, dependencies);
-    writeByTarget.divide(dependencies);
   });
 }
 
