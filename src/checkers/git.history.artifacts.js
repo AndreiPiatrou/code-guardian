@@ -9,21 +9,21 @@ const SINGLE_WORD_MESSAGE = /^\S*$/;
 const toPairs = (history) => zip(history, history.slice(1));
 function singleWord(commit) {
   return SINGLE_WORD_MESSAGE.test(commit.message)
-    ? `Message "${commit.message}" is a single word`
+    ? 'Commit message is a single word'
     : false;
 }
 function repeating(first, second) {
   return get(first, 'message') === get(second, 'message')
-    ? `Message "${first.message}" is repeated in a row`
+    ? 'Commit message is repeated in a row'
     : false;
 }
 function attachDetails(fn) {
   return (first, second) => {
     const message = fn(first, second);
 
-    return message
-      ? { message, author: first.authorName, hash: first.hash }
-      : false;
+    return message ? {
+      message, author: first.authorName, hash: first.hash, commit: first.message,
+    } : false;
   };
 }
 
