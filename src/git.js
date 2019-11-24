@@ -5,12 +5,14 @@ const gitLog = require('gitlog');
 const DEFAULT_OPTIONS = {
   repo: `${__dirname}/test-repo-folder`,
   number: 10,
+  all: true,
   fields: [
     'hash',
     'authorName',
     'authorEmail',
     'rawBody',
   ],
+  execOptions: { maxBuffer: 1000 * 1024 },
 };
 
 function normalize({
