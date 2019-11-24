@@ -19,6 +19,11 @@ const { argv } = require('yargs')
   .option('entropyThreshold', {
     default: 2,
   })
+  .option('gitCommitHistoryDepth', {
+    alias: 'g',
+    default: 1000,
+    describe: 'Commit history depth to check',
+  })
   .option('checkers', {
     array: true,
     choices: checkers,

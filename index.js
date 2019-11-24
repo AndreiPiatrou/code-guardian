@@ -19,9 +19,9 @@ const FILE_EXCLUDES = flow(
 )(argv.excludes);
 
 const checkFn = buildCheckFn({
-  readGitHistoryFn: git.getHistory,
   readLinesFn: fs.readLines,
   readFilesFn: (dir) => fs.getFiles(dir, FILE_EXCLUDES),
+  readGitHistoryFn: (dir) => git.getHistory(dir, { number: argv.gitCommitHistoryDepth }),
   // eslint-disable-next-line no-console
   onCheckResult: (results) => results.length && console.log(results),
 });
