@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable no-loop-func */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-
 const { flow, compact } = require('lodash');
 
 const { argv, checkerConfig } = require('./src/arguments');
@@ -22,6 +17,7 @@ const checkFn = buildCheckFn({
   readLinesFn: fs.readLines,
   readFilesFn: (dir) => fs.getFiles(dir, FILE_EXCLUDES),
   readGitHistoryFn: (dir) => git.getHistory(dir, { number: argv.gitCommitHistoryDepth }),
+  // TODO: refactor with flexible outputting
   // eslint-disable-next-line no-console
   onCheckResult: (results) => results.length && console.log(results),
 });
