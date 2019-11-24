@@ -1,18 +1,11 @@
-const { flow } = require('lodash');
+const { flow, tap } = require('lodash');
 
-function adapt(base, { readGitHistoryFn, onCheckResult }) {
+function adapt(base, { readGitHistoryFn, onCheckResult = () => {} }) {
   return function check(repo, context, config) {
     return flow(
       readGitHistoryFn,
-      (history) => {
-        const historyResults = base(history, context, config);
-
-        if (onCheckResult && historyResults.length) {
-          onCheckResult(historyResults); // single side effect that is allowed here
-        }
-
-        return historyResults;
-      },
+      (history) => base(history, context, config),
+      (results) => tap(results, onCheckResult),
     )(repo);
   };
 }
