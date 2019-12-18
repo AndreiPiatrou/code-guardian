@@ -1,14 +1,14 @@
-node_modules/
-tmp/
-cache/
-vendor/
-.git/
-.idea/
-.nyc_output/
-coverage/
-test/
-stubs/
-examples/
+node_modules
+tmp
+cache
+vendor
+.git
+.idea
+.nyc_output
+coverage
+test
+stubs
+examples
 
 package.json
 yarn.lock
@@ -16,7 +16,7 @@ package-lock.json
 Gemfile
 Gemfile.lock
 
-jquery
+*jquery*
 
 .fileignore
 .eslint
@@ -24,19 +24,21 @@ jquery
 .npmignore
 .npmrc
 
-.png
-.jpg
-.pdf
-.css
-.gif
-.psd
-.db
-.log
-.eot
-.woff
-.woff2
-.ttf
-.jpeg
-.svg
-.ico
-.zip
+*.png
+*.jpg
+*.pdf
+*.css
+*.scss
+*.less
+*.gif
+*.psd
+*.db
+*.log
+*.eot
+*.woff
+*.woff2
+*.ttf
+*.jpeg
+*.svg
+*.ico
+*.zip
