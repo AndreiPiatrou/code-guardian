@@ -44,7 +44,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "fs-readdir-recursive": "^1.1.0",
-    "gitlog": "^3.1.2",
+    "gitlog": "^4.0.4",
     "ignore": "^5.1.4",
     "lodash": "^4.17.15",
     "require-all": "^3.0.0",
